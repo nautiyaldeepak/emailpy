@@ -1,16 +1,42 @@
 #!/usr/bin/env python3.7
 import smtplib
+from email import encoders
+from email.message import Message
+from email.mime.audio import MIMEAudio
+from email.mime.base import MIMEBase
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
  
-def send_email():
+def email_send(sender_email_address, sender_email_address_password, target_email_address, email_body):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()
-    server.login("YOUR EMAIL", "PASSWORD")
-    
-    msg = "Message will come here"
     try:
-        server.sendmail("YOUR MAIL", "TARGET MAIL", msg)
+        server.login(sender_email_address, sender_email_address_password)
+        server.sendmail(sender_email_address, target_email_address, email_body)
     except:
         print("Some error")
     server.quit()
 
-send_email()
+def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body):
+    msg = MIMEMultipart()
+    msg['From'] = sender_email_address
+    msg['To'] = target_email_address
+    msg['Subject'] = email_subject
+    
+    msg_body = email_body
+    msg.attach(MIMEText(msg_body, 'plain'))
+
+    filename = "test.txt"
+    attachment = open("/Users/deepaknautiyal/git/emailpy/test.txt", "rb")
+
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+    
+    msg.attach(part)
+    full_message = msg.as_string()
+    email_send(sender_email_address, sender_email_address_password, target_email_address, full_message)
+
+email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body")
