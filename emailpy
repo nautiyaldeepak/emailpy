@@ -1,13 +1,16 @@
 #!/usr/bin/env python3.7
 import smtplib
  
-server = smtplib.SMTP('smtp.gmail.com', 587)
-server.starttls()
-server.login("YOUR EMAIL", "PASSWORD")
- 
-msg = "Message will come here"
-try:
-    server.sendmail("YOUR MAIL", "TARGET MAIL", msg)
-except:
-    print("Some error")
-server.quit()
+def send_email():
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login("YOUR EMAIL", "PASSWORD")
+    
+    msg = "Message will come here"
+    try:
+        server.sendmail("YOUR MAIL", "TARGET MAIL", msg)
+    except:
+        print("Some error")
+    server.quit()
+
+send_email()
