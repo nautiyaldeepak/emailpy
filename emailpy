@@ -28,7 +28,7 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     msg.attach(MIMEText(msg_body, 'plain'))
 
     filename = "test.txt"
-    attachment = open("/Users/deepaknautiyal/git/emailpy/test.txt", "rb")
+    attachment = open(filename, "rb")
 
     part = MIMEBase('application', 'octet-stream')
     part.set_payload((attachment).read())
