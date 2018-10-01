@@ -1,5 +1,6 @@
 #!/usr/bin/env python3.7
 import smtplib
+import os
 from email import encoders
 from email.message import Message
 from email.mime.audio import MIMEAudio
@@ -8,8 +9,23 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
  
+def smtp_filter(email_address):
+    email_client = email_address.split('@')
+    email_client = email_client[1].split('.')
+    if email_client[0].lower() == "gmail":
+        return ['smtp.gmail.com', 587]
+    elif email_client[0].lower() == "outlook":
+        return ['smtp-mail.outlook.com', 587]
+    elif email_client[0].lower() == "yahoo":
+        return ['smtp.mail.yahoo.com', 587]
+    elif email_client[0].lower() == "icloud":
+        return ['smtp.mail.me.com', 587]
+    return 0
+
+
 def email_send(sender_email_address, sender_email_address_password, target_email_address, email_body):
-    server = smtplib.SMTP('smtp.gmail.com', 587)
+    smtp = smtp_filter(sender_email_address)
+    server = smtplib.SMTP(smtp[0], smtp[1])
     server.starttls()
     try:
         server.login(sender_email_address, sender_email_address_password)
@@ -18,7 +34,7 @@ def email_send(sender_email_address, sender_email_address_password, target_email
         print("Some error")
     server.quit()
 
-def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body):
+def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body, email_attachments = None):
     msg = MIMEMultipart()
     msg['From'] = sender_email_address
     msg['To'] = target_email_address
@@ -27,16 +43,16 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     msg_body = email_body
     msg.attach(MIMEText(msg_body, 'plain'))
 
-    filename = "test.txt"
-    attachment = open(filename, "rb")
+    if email_attachments != None:
+        filename = "README.md"
+        attachment = open(filename, "rb")
+        part = MIMEBase('application', 'octet-stream')
+        part.set_payload((attachment).read())
+        encoders.encode_base64(part)
+        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+        msg.attach(part)
 
-    part = MIMEBase('application', 'octet-stream')
-    part.set_payload((attachment).read())
-    encoders.encode_base64(part)
-    part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-    
-    msg.attach(part)
     full_message = msg.as_string()
     email_send(sender_email_address, sender_email_address_password, target_email_address, full_message)
 
-email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body")
+email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body", "attachment_file")
