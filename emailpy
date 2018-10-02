@@ -126,3 +126,6 @@ def main():
         print("Error handled")
 
     email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body", "attachment_file")
+
+if '__main__' == __name__:
+    main()
