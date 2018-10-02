@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.7
 import smtplib
 import os
+import sys
 from email import encoders
 from email.message import Message
 from email.mime.audio import MIMEAudio
@@ -44,15 +45,84 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     msg.attach(MIMEText(msg_body, 'plain'))
 
     if email_attachments != None:
-        filename = "README.md"
-        attachment = open(filename, "rb")
-        part = MIMEBase('application', 'octet-stream')
-        part.set_payload((attachment).read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
-        msg.attach(part)
+        try:
+            print("attach: " + email_attachments)
+            filename_split = email_attachments.split("/")
+            filename = filename_split[len(filename_split) - 1]
+            print("filename: " + filename)
+            attachment = open(email_attachments, "rb")
+            part = MIMEBase('application', 'octet-stream')
+            part.set_payload((attachment).read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
+            msg.attach(part)
+        except:
+            print("Attachments problem. [EXIT CODE: 101]")
+            sys.exit(1)
 
     full_message = msg.as_string()
     email_send(sender_email_address, sender_email_address_password, target_email_address, full_message)
 
-email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body", "attachment_file")
+def main():
+    print("Argument List: " + str(sys.argv))
+    input_command = sys.argv
+    try:
+        for i in range(len(input_command)):
+            if input_command[i] == "--from":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--": 
+                        sender_email_address = input_command[i + 1]
+                    else:
+                        print("--from parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    sender_email_address = input_command[i + 1]
+            if input_command[i] == "--passwd":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--" or input_command[i + 2] == None: 
+                        sender_email_address_password = input_command[i + 1]
+                    else:
+                        print("--passwd parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    sender_email_address_password = input_command[i + 1]
+            if input_command[i] == "--to":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--": 
+                        target_email_address = input_command[i + 1]
+                    else:
+                        print("--to parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    target_email_address = input_command[i + 1]
+            if input_command[i] == "--subject":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--":
+                        email_subject = input_command[i + 1]
+                    else:
+                        print("--subject parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    email_subject = input_command[i + 1]
+            if input_command[i] == "--message":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--":
+                        email_body = input_command[i + 1]
+                    else:
+                        print("--message parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    email_body = input_command[i + 1]
+            if input_command[i] == "--attach":
+                if i + 2 <= len(input_command) - 1:
+                    if input_command[i + 2][:2] == "--":
+                        email_attachments = input_command[i + 1]
+                    else:
+                        print("--attach parameter can only have 1 value. [EXIT CODE: 102]")
+                        sys.exit(102)
+                else:
+                    email_attachments = input_command[i + 1]
+    except:
+        print("Error handled")
+
+    email_header("sender_email_address", "sender_email_address_password", "target_email_address", "email_subject", "email_body", "attachment_file")
