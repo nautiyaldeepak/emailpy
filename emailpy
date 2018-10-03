@@ -23,6 +23,8 @@ def smtp_filter(email_address):
         return ['smtp.mail.me.com', 587]
     elif email_client[0].lower() == "zoho":
         return ['smtp.zoho.com', 587]
+    elif email_client[0].lower() == "aol":
+        return ['smtp.aol.com', 587]
     return 0
 
 
