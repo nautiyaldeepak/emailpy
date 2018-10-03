@@ -46,10 +46,8 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
 
     if email_attachments != None:
         try:
-            print("attach: " + email_attachments)
             filename_split = email_attachments.split("/")
             filename = filename_split[len(filename_split) - 1]
-            print("filename: " + filename)
             attachment = open(email_attachments, "rb")
             part = MIMEBase('application', 'octet-stream')
             part.set_payload((attachment).read())
