@@ -65,24 +65,8 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     full_message = msg.as_string()
     email_send(sender_email_address, sender_email_address_password, target_email_address, full_message)
 
-def check_argument_validity(input_command):
-    flag = 0
-    for i in range(len(input_command)):
-        if input_command[i][:2] == "--":
-            command_list = ['--from','--passwd','--to','--subject','--message','--attach']
-            for j in range(len(command_list)):
-                if command_list[j] == input_command:
-                    flag = 1
-    if flag == 0:
-        print("Invalid command")
-        sys.exit(103)
-    else:
-        print("Valid Command")
-
 def main():
-    print("Argument List: " + str(sys.argv))
     input_command = sys.argv
-    check_argument_validity(input_command)
     try:
         for i in range(len(input_command)):
             if input_command[i] == "--from":
