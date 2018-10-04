@@ -79,7 +79,7 @@ def main():
                         sys.exit(102)
                 else:
                     sender_email_address = input_command[i + 1]
-            if input_command[i] == "--passwd":
+            elif input_command[i] == "--passwd":
                 if i + 2 <= len(input_command) - 1:
                     if input_command[i + 2][:2] == "--" or input_command[i + 2] == None: 
                         sender_email_address_password = input_command[i + 1]
@@ -88,7 +88,7 @@ def main():
                         sys.exit(102)
                 else:
                     sender_email_address_password = input_command[i + 1]
-            if input_command[i] == "--to":
+            elif input_command[i] == "--to":
                 if i + 2 <= len(input_command) - 1:
                     if input_command[i + 2][:2] == "--": 
                         target_email_address = input_command[i + 1]
@@ -97,7 +97,7 @@ def main():
                         sys.exit(102)
                 else:
                     target_email_address = input_command[i + 1]
-            if input_command[i] == "--subject":
+            elif input_command[i] == "--subject":
                 if i + 2 <= len(input_command) - 1:
                     if input_command[i + 2][:2] == "--":
                         email_subject = input_command[i + 1]
@@ -106,7 +106,7 @@ def main():
                         sys.exit(102)
                 else:
                     email_subject = input_command[i + 1]
-            if input_command[i] == "--message":
+            elif input_command[i] == "--message":
                 if i + 2 <= len(input_command) - 1:
                     if input_command[i + 2][:2] == "--":
                         email_body = input_command[i + 1]
@@ -115,7 +115,7 @@ def main():
                         sys.exit(102)
                 else:
                     email_body = input_command[i + 1]
-            if input_command[i] == "--attach":
+            elif input_command[i] == "--attach":
                 if i + 2 <= len(input_command) - 1:
                     if input_command[i + 2][:2] == "--":
                         email_attachments = input_command[i + 1]
