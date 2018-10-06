@@ -25,6 +25,8 @@ def smtp_filter(email_address):
         return ['smtp.zoho.com', 587]
     elif email_client[0].lower() == "aol":
         return ['smtp.aol.com', 587]
+    elif email_client[0].lower() == "yandex":
+        return ['smtp.yandex.com', 465]
     return 0
 
 
