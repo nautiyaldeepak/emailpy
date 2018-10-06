@@ -31,6 +31,8 @@ def smtp_filter(email_address):
         return ['smtp.fastmail.com', 465]
     elif email_client[0].lower() == "gmx":
         return ['mail.gmx.com', 587]
+    else:
+        return ['smtp.gmail.com', 587]
     return 0
 
 
