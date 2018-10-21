@@ -38,7 +38,7 @@ def smtp_filter(email_address):
 
 def email_send(sender_email_address, sender_email_address_password, target_email_address, email_body):
     smtp = smtp_filter(sender_email_address)
-    server = smtplib.SMTP(smtp[0], smtp[1])
+    server = smtplib.SMTP_SSL(smtp[0], smtp[1])
     server.starttls()
     try:
         server.login(sender_email_address, sender_email_address_password)
