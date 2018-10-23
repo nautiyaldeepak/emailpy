@@ -45,10 +45,10 @@ def email_send(sender_email_address, sender_email_address_password, target_email
     try:
         server.login(sender_email_address, sender_email_address_password)
         server.sendmail(sender_email_address, target_email_address, email_body)
+        server.quit()
+        print(colored('EMAIL SENT', 'yellow'))
     except:
-        print("Some error")
-    server.quit()
-    print(colored('EMAIL SENT', 'yellow'))
+        print(colored('\n\tERROR: There was some problem while sending email\n', 'red'))
 
 def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body, email_attachments = None):
     print(colored('Creating Email ...', 'yellow'))
@@ -72,7 +72,7 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
             part.add_header('Content-Disposition', "attachment; filename= %s" % filename)
             msg.attach(part)
         except:
-            print("Attachments problem. [EXIT CODE: 101]")
+            print(colored('\n\tERROR: Problem faced while linking Attachments. [EXIT CODE: 101]\n', 'red'))
             sys.exit(1)
 
     full_message = msg.as_string()
