@@ -60,8 +60,8 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     msg_body = email_body
     msg.attach(MIMEText(msg_body, 'plain'))
 
-    print(colored('Linking Attachments ...', 'yellow'))
     if email_attachments != "":
+        print(colored('Linking Attachments ...', 'yellow'))
         try:
             filename_split = email_attachments.split("/")
             filename = filename_split[len(filename_split) - 1]
