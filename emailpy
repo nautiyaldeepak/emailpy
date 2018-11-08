@@ -50,7 +50,7 @@ def email_send(sender_email_address, sender_email_address_password, target_email
     except:
         print(colored('\n\tERROR: There was some problem while sending email\n', 'red'))
 
-def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body, email_attachments = None):
+def email_header(sender_email_address, sender_email_address_password, target_email_address, email_subject, email_body, email_attachments):
     print(colored('Creating Email ...', 'yellow'))
     msg = MIMEMultipart()
     msg['From'] = sender_email_address
@@ -61,7 +61,7 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
     msg.attach(MIMEText(msg_body, 'plain'))
 
     print(colored('Linking Attachments ...', 'yellow'))
-    if email_attachments != None:
+    if email_attachments != "":
         try:
             filename_split = email_attachments.split("/")
             filename = filename_split[len(filename_split) - 1]
@@ -80,6 +80,9 @@ def email_header(sender_email_address, sender_email_address_password, target_ema
 
 def main():
     input_command = sys.argv
+    email_subject = "" 
+    email_body = ""
+    email_attachments = ""
     try:
         for i in range(len(input_command)):
             if input_command[i] == "--from":
