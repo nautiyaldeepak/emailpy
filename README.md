@@ -7,6 +7,7 @@
 
 ```console
 $ git clone https://github.com/nautiyaldeepak/emailpy.git
+$ pip3 install -r requirements.txt
 $ python3 setup.py install
 ```
 
