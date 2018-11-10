@@ -33,7 +33,8 @@ Sending email with message, subject & attachments
 
 ## Note
 #### For Gmail Users
-If you are using Gmail for sending the otp then there is 1 extra step. You will first has reduce the security of the Gmail Account. Check the Resources section of this Repo to reduce security OR go on the link: https://myaccount.google.com/lesssecureapps The lessSecureAppUse Feature should be "ON".
+If you are using Gmail for sending the otp then there is 1 extra step. You will first has reduce the security of the Gmail Account. 
+To reduce the security of your Gmail account go to the link: https://myaccount.google.com/lesssecureapps The lessSecureAppUse Feature should be "ON".
 
 
 ## Contributing
